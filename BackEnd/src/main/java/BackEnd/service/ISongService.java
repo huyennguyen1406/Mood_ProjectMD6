@@ -1,4 +1,20 @@
 package BackEnd.service;
 
+import BackEnd.model.Song;
+import BackEnd.model.User;
+
+import java.util.List;
+
 public interface ISongService {
+    Song findById(Long idSong);
+
+    List<Song> findAll();
+
+    Song save(Song song);
+
+    void deleteById(Long idSong);
+
+    List<Song> findSongByNameSearch(String search);
+
+    void getSongToPlaylist(Long idSong, Long idPlaylist);
 }

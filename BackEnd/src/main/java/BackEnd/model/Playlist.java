@@ -1,8 +1,9 @@
 package BackEnd.model;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -21,6 +22,8 @@ public class Playlist {
     private String descriptionPlaylist;
     private LocalDate dateCreatePlaylist;
     private LocalDate lastModifierPlaylist;
+
+    @Value("1")
     private Long numberOfViewPlaylist;
 
     @ManyToMany

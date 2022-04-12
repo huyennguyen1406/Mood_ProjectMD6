@@ -1,5 +1,8 @@
 package BackEnd.model;
 
+import net.bytebuddy.implementation.bind.annotation.Default;
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.persistence.*;
 
 @Entity
@@ -26,12 +29,21 @@ public class Song {
     @JoinColumn(name = "id_category")
     private Category category;
 
+    @Value("0")
     private Long numberOfViewSong;
 
     public Song() {
     }
 
-//    public Song(Long idSong, String nameSong, String descriptionSong, String mp3UrlSong, String avatarUrlSong, Author author, User user, Category category) {
+    public Long getNumberOfViewSong() {
+        return numberOfViewSong;
+    }
+
+    public void setNumberOfViewSong(Long numberOfViewSong) {
+        this.numberOfViewSong = numberOfViewSong;
+    }
+
+    //    public Song(Long idSong, String nameSong, String descriptionSong, String mp3UrlSong, String avatarUrlSong, Author author, User user, Category category) {
 //        this.idSong = idSong;
 //        this.nameSong = nameSong;
 //        this.descriptionSong = descriptionSong;
