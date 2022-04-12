@@ -48,7 +48,7 @@ public class AuthController {
     JwtUtils jwtUtils;
 
     @PutMapping("/re-pass/{id}")
-    public ResponseEntity<?> changePassword(@PathVariable("id") Long id, @RequestBody RePassword rePassword) {
+    public ResponseEntity<?> changePassword(@PathVariable Long id, @RequestBody RePassword rePassword) {
         User user = new User();
         if (iUserRepository.findById(id).isPresent()){
             user = iUserRepository.findById(id).get();
