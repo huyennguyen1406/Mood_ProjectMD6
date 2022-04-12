@@ -4,6 +4,7 @@ import net.bytebuddy.implementation.bind.annotation.Default;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "song")
@@ -32,7 +33,17 @@ public class Song {
     @Value("0")
     private Long numberOfViewSong;
 
+    private LocalDate dateCreateSong;
+
     public Song() {
+    }
+
+    public LocalDate getDateCreateSong() {
+        return dateCreateSong;
+    }
+
+    public void setDateCreateSong(LocalDate dateCreateSong) {
+        this.dateCreateSong = dateCreateSong;
     }
 
     public Long getNumberOfViewSong() {
