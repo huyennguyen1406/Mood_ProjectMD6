@@ -10,6 +10,6 @@ public interface ILikePlaylistRepository extends JpaRepository<LikePlaylist, Lon
 
     LikePlaylist findByPlaylistLikeSongIdPlaylistAndUserLikeSongId(Long idPlaylist, Long idUser);
 
-    @Query(value = "select * from like_post where id_post = :idPost and id_like = :idLike", nativeQuery = true)
-    LikePlaylist findLikeByPostIdAndLikeId(@Param("idPost") Long idPost, @Param("idLike") Long idLike);
+//    @Query(value = "select * from like_post where id_post = :idPost and id_like = :idLike", nativeQuery = true)
+//    LikePlaylist findLikeByPostIdAndLikeId(@Param("idPost") Long idPost, @Param("idLike") Long idLike);
 }
