@@ -46,4 +46,9 @@ public class SongServiceImpl implements ISongService {
     public void getSongToPlaylist(Long idSong, Long idPlaylist) {
         songRepository.getSongToPlaylist(idSong, idPlaylist);
     }
+
+    @Override
+    public List<Song> findSongByNameTag(String nameTag) {
+        return songRepository.findSongByNameTag(nameTag);
+    }
 }

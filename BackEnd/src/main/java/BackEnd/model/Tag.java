@@ -2,6 +2,7 @@ package BackEnd.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tag")
@@ -16,16 +17,14 @@ public class Tag {
     @JoinTable(name = "tag_song",
             joinColumns = @JoinColumn(name = "id_tag"),
             inverseJoinColumns = @JoinColumn(name = "id_song"))
-    private List<Song> songs;
+    private Set<Song> songs;
 
     public Tag() {
     }
 
-//    public Tag(Long idTag, String nameTag, List<Song> songs) {
-//        this.idTag = idTag;
-//        this.nameTag = nameTag;
-//        this.songs = songs;
-//    }
+    public Tag(String nameTag) {
+        this.nameTag = nameTag;
+    }
 
     public Long getIdTag() {
         return idTag;
@@ -43,11 +42,11 @@ public class Tag {
         this.nameTag = nameTag;
     }
 
-    public List<Song> getSongs() {
+    public Set<Song> getSongs() {
         return songs;
     }
 
-    public void setSongs(List<Song> songs) {
+    public void setSongs(Set<Song> songs) {
         this.songs = songs;
     }
 }

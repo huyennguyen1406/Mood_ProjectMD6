@@ -54,19 +54,6 @@ public class Song {
         this.numberOfViewSong = numberOfViewSong;
     }
 
-    //    public Song(Long idSong, String nameSong, String descriptionSong, String mp3UrlSong, String avatarUrlSong, Author author, User user, Category category) {
-//        this.idSong = idSong;
-//        this.nameSong = nameSong;
-//        this.descriptionSong = descriptionSong;
-//        this.mp3UrlSong = mp3UrlSong;
-//        this.avatarUrlSong = avatarUrlSong;
-//        this.author = author;
-//        this.user = user;
-//        this.category = category;
-//    }
-
-
-
     public Long getIdSong() {
         return idSong;
     }

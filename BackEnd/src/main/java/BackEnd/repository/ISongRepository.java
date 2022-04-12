@@ -21,4 +21,10 @@ public interface ISongRepository extends JpaRepository<Song, Long> {
     @Modifying
     @Query(value = "insert into playlist_song (id_playlist, id_song) values (:idPlaylist, :idSong)", nativeQuery = true)
     void getSongToPlaylist(@Param("idSong") Long idSong, @Param("idPlaylist") Long idPlaylist);
+
+    @Query(value = "select song.id_song, avatar_url_song, description_song, mp3url_song,name_song, song.id_author, id_category, id_singer, number_of_view_song from song" +
+            "inner join tag_song on song.id_song = tag_song.id_song" +
+            "inner join tag on tag.id_tag = tag_song.id_tag" +
+            "where name_tag = :nameTag", nativeQuery = true)
+    List<Song> findSongByNameTag(@Param("nameTag") String nameTag);
 }
