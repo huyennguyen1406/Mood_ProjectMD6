@@ -8,9 +8,9 @@ import BackEnd.payload.request.SignUp;
 import BackEnd.payload.response.JwtResponse;
 import BackEnd.payload.response.MessageResponse;
 import BackEnd.repository.IRoleRepository;
-import BackEnd.repository.IUserRepository;
 import BackEnd.security.jwt.JwtUtils;
 import BackEnd.security.service.UserDetailImpl;
+import BackEnd.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,7 +34,7 @@ public class AuthController {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    IUserRepository iUserRepository;
+    IUserService userService;
 
     @Autowired
     IRoleRepository iRoleRepository;
@@ -68,13 +68,13 @@ public class AuthController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUp signUpRequest) {
-        if (iUserRepository.existsByUsername(signUpRequest.getUsername())) {
+        if (userService.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken !"));
         }
 
-        if (iUserRepository.existsByEmail(signUpRequest.getEmail())) {
+        if (userService.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use !"));
@@ -114,7 +114,7 @@ public class AuthController {
         }
 
         user.setRoles(roles);
-        iUserRepository.save(user);
+        userService.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully !"));
     }
