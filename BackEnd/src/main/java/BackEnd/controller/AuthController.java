@@ -4,6 +4,7 @@ import BackEnd.model.ERole;
 import BackEnd.model.Role;
 import BackEnd.model.User;
 import BackEnd.payload.request.Login;
+import BackEnd.payload.request.RePassword;
 import BackEnd.payload.request.SignUp;
 import BackEnd.payload.response.JwtResponse;
 import BackEnd.payload.response.MessageResponse;
@@ -12,6 +13,7 @@ import BackEnd.repository.IUserRepository;
 import BackEnd.security.jwt.JwtUtils;
 import BackEnd.security.service.UserDetailImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -44,6 +46,24 @@ public class AuthController {
 
     @Autowired
     JwtUtils jwtUtils;
+
+    @PutMapping("/re-pass/{id}")
+    public ResponseEntity<?> changePassword(@PathVariable("id") Long id, @RequestBody RePassword rePassword) {
+        User user = new User();
+        if (iUserRepository.findById(id).isPresent()){
+            user = iUserRepository.findById(id).get();
+        }
+        if (!encoder.matches(rePassword.getCurrentPassword(), user.getPassword())) {
+//            Mã 600 là lỗi sai mật khẩu hiện tại
+            return new ResponseEntity<>(600, HttpStatus.BAD_REQUEST);
+        } else if (!rePassword.getNewPassword().equals(rePassword.getConfirmPassword())) {
+//            Mã 601 là lỗi xác nhận mật khẩu mới sai
+            return new ResponseEntity<>(601, HttpStatus.BAD_REQUEST);
+        }
+        user.setPassword(encoder.encode(rePassword.getNewPassword()));
+        iUserRepository.save(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @PostMapping("/sign-in")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody Login loginRequest) {
