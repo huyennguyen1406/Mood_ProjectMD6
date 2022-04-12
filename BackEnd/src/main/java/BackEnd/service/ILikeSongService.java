@@ -11,4 +11,5 @@ public interface ILikeSongService {
     void deleteLikeSong(LikeSong likeSong);
 
     LikeSong save(LikeSong likeSong);
+
 }

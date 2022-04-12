@@ -30,4 +30,5 @@ public class LikeSongServiceImpl implements ILikeSongService {
     public LikeSong save(LikeSong likeSong) {
         return likeSongRepository.save(likeSong);
     }
+
 }

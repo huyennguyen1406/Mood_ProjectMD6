@@ -20,6 +20,11 @@ public class LikeSong {
     public LikeSong() {
     }
 
+    public LikeSong( Song songLikeSong, User userLikeSong) {
+        this.songLikeSong = songLikeSong;
+        this.userLikeSong = userLikeSong;
+    }
+
     public Long getIdLikeSong() {
         return idLikeSong;
     }

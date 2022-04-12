@@ -35,7 +35,7 @@ public class User {
     public User() {
     }
 
-    public User(String name, String address, String phone, String avatarURL, String username, String email,String password, Set<Role> roles) {
+    public User(String name, String address, String phone, String avatarURL, String username, String email, String password, Set<Role> roles) {
         this.name = name;
         this.address = address;
         this.phone = phone;
