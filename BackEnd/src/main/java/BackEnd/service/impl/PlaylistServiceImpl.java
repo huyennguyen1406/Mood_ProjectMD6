@@ -31,10 +31,10 @@ public class PlaylistServiceImpl implements IPlaylistService {
 
     @Override
     public Playlist save(Playlist playlist) {
-        LocalDate dateCreate = LocalDate.parse(String.valueOf(playlist.getDateCreatePlaylist()), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        LocalDate lastModifier = LocalDate.parse(String.valueOf(playlist.getLastModifierPlaylist()), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        playlist.setDateCreatePlaylist(dateCreate);
-        playlist.setLastModifierPlaylist(lastModifier);
+//        LocalDate dateCreate = LocalDate.parse(String.valueOf(playlist.getDateCreatePlaylist()), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//        LocalDate lastModifier = LocalDate.parse(String.valueOf(playlist.getLastModifierPlaylist()), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//        playlist.setDateCreatePlaylist(dateCreate);
+//        playlist.setLastModifierPlaylist(lastModifier);
         return playlistRepository.save(playlist);
     }
 
