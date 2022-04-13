@@ -1,6 +1,10 @@
 package BackEnd.model;
 
+import net.bytebuddy.implementation.bind.annotation.Default;
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "song")
@@ -26,23 +30,29 @@ public class Song {
     @JoinColumn(name = "id_category")
     private Category category;
 
+    @Value("0")
     private Long numberOfViewSong;
+
+    private LocalDate dateCreateSong;
 
     public Song() {
     }
 
-//    public Song(Long idSong, String nameSong, String descriptionSong, String mp3UrlSong, String avatarUrlSong, Author author, User user, Category category) {
-//        this.idSong = idSong;
-//        this.nameSong = nameSong;
-//        this.descriptionSong = descriptionSong;
-//        this.mp3UrlSong = mp3UrlSong;
-//        this.avatarUrlSong = avatarUrlSong;
-//        this.author = author;
-//        this.user = user;
-//        this.category = category;
-//    }
+    public LocalDate getDateCreateSong() {
+        return dateCreateSong;
+    }
 
+    public void setDateCreateSong(LocalDate dateCreateSong) {
+        this.dateCreateSong = dateCreateSong;
+    }
 
+    public Long getNumberOfViewSong() {
+        return numberOfViewSong;
+    }
+
+    public void setNumberOfViewSong(Long numberOfViewSong) {
+        this.numberOfViewSong = numberOfViewSong;
+    }
 
     public Long getIdSong() {
         return idSong;

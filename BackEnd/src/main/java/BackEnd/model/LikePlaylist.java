@@ -21,6 +21,11 @@ public class LikePlaylist {
     public LikePlaylist() {
     }
 
+    public LikePlaylist(User userLikeSong, Playlist playlistLikeSong) {
+        this.userLikeSong = userLikeSong;
+        this.playlistLikeSong = playlistLikeSong;
+    }
+
     public Long getIdLikePlaylist() {
         return idLikePlaylist;
     }

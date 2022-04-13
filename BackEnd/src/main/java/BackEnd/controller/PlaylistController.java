@@ -1,11 +1,62 @@
 package BackEnd.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import BackEnd.model.Playlist;
+import BackEnd.model.User;
+import BackEnd.service.IPlaylistService;
+import BackEnd.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/home/playlist")
 public class PlaylistController {
+
+    @Autowired
+    private IPlaylistService playlistService;
+
+    @Autowired
+    private IUserService userService;
+
+    @GetMapping()
+    public ResponseEntity<List<Playlist>> getAllPlaylist() {
+        return new ResponseEntity<>(playlistService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{idPlaylist}")
+    public ResponseEntity<Playlist> getOnePlaylist(@PathVariable("idPlaylist") Long idPlaylist) {
+        return new ResponseEntity<>(playlistService.findById(idPlaylist), HttpStatus.OK);
+    }
+
+    @PostMapping("/{idUser}")
+    public ResponseEntity<Playlist> createPlaylist(@PathVariable("idUser") Long idUser, @RequestBody Playlist playlist) {
+        User user = userService.findById(idUser);
+        playlist.setUser(user);
+        playlistService.save(playlist);
+        return new ResponseEntity<>(playlist, HttpStatus.OK);
+    }
+
+    @PutMapping("/{idUser}/{idPlaylist}")
+    public ResponseEntity<Playlist> updatePlaylist(@PathVariable("idUser") Long idUser,@PathVariable("idPlaylist") Long idPlaylist, @RequestBody Playlist playlist){
+        User user = userService.findById(idUser);
+        playlist.setUser(user);
+        playlist.setIdPlaylist(idPlaylist);
+        playlistService.save(playlist);
+        return new ResponseEntity<>(playlist, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{idPlaylist}")
+    public ResponseEntity<?> deletePlaylist(@PathVariable("idPlaylist") Long idPlaylist) {
+        playlistService.deleteById(idPlaylist);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Playlist>> findPlaylistBySearch(@RequestParam("search") String search) {
+        return new ResponseEntity<>(playlistService.findPlaylistByNameSearch(search), HttpStatus.OK);
+    }
 }
