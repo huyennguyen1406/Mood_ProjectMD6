@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("*")
+
 @RestController
 @RequestMapping("/home/song")
+@CrossOrigin("*")
 public class SongController {
 
     @Autowired
