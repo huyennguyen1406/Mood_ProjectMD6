@@ -6,6 +6,8 @@ import BackEnd.service.IPlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -29,6 +31,10 @@ public class PlaylistServiceImpl implements IPlaylistService {
 
     @Override
     public Playlist save(Playlist playlist) {
+        LocalDate dateCreate = LocalDate.parse(String.valueOf(playlist.getDateCreatePlaylist()), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate lastModifier = LocalDate.parse(String.valueOf(playlist.getLastModifierPlaylist()), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        playlist.setDateCreatePlaylist(dateCreate);
+        playlist.setLastModifierPlaylist(lastModifier);
         return playlistRepository.save(playlist);
     }
 

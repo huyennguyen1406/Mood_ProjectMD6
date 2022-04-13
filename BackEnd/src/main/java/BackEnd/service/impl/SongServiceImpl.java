@@ -6,6 +6,8 @@ import BackEnd.service.ISongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -28,6 +30,8 @@ public class SongServiceImpl implements ISongService {
 
     @Override
     public Song save(Song song) {
+        LocalDate dateCreate = LocalDate.parse(String.valueOf(song.getDateCreateSong()), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        song.setDateCreateSong(dateCreate);
         return songRepository.save(song);
     }
 
