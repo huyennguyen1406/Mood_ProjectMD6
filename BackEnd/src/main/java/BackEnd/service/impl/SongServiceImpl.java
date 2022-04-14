@@ -65,4 +65,9 @@ public class SongServiceImpl implements ISongService {
     public List<Song> getSevenSongLikeMost() {
         return songRepository.getSevenSongLikeMost();
     }
+
+    @Override
+    public List<Song> getAllSongLiked(Long idUser) {
+        return songRepository.getAllSongLiked(idUser);
+    }
 }

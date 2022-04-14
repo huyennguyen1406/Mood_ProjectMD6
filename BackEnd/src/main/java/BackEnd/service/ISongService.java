@@ -25,4 +25,6 @@ public interface ISongService {
     List<Song> getSevenSongNewest();
 
     List<Song> getSevenSongLikeMost();
+
+    List<Song> getAllSongLiked(Long idUser);
 }

@@ -80,4 +80,9 @@ public class SongController {
         return new ResponseEntity<>(songService.getSevenSongLikeMost(), HttpStatus.OK);
     }
 
+    @GetMapping("/{idUser}/liked")
+    public ResponseEntity<List<Song>> getAllSongLiked(@PathVariable("idUser") Long idUser){
+        return new ResponseEntity<>(songService.getAllSongLiked(idUser), HttpStatus.OK);
+    }
+
 }
