@@ -70,4 +70,14 @@ public class SongController {
         return new ResponseEntity<>(songs, HttpStatus.OK);
     }
 
+    @GetMapping("/newest")
+    public ResponseEntity<List<Song>> getSevenSongNewest(){
+        return new ResponseEntity<>(songService.getSevenSongNewest(), HttpStatus.OK);
+    }
+
+    @GetMapping("/like-most")
+    public ResponseEntity<List<Song>> getSevenSongLikeMost(){
+        return new ResponseEntity<>(songService.getSevenSongLikeMost(), HttpStatus.OK);
+    }
+
 }

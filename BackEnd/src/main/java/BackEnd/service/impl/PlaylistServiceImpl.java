@@ -1,6 +1,7 @@
 package BackEnd.service.impl;
 
 import BackEnd.model.Playlist;
+import BackEnd.model.Song;
 import BackEnd.repository.IPlaylistRepository;
 import BackEnd.service.IPlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,15 @@ public class PlaylistServiceImpl implements IPlaylistService {
     public List<Playlist> findPlaylistByNameSearch(String search) {
         String tagSearch = "%" + search + "%";
         return playlistRepository.findPlaylistByNameSearch(tagSearch);
+    }
+
+    @Override
+    public List<Playlist> getSevenPlaylistLikeMost() {
+        return playlistRepository.getSevenPlaylistLikeMost();
+    }
+
+    @Override
+    public List<Playlist> getSevenPlaylistNewest() {
+        return playlistRepository.getSevenPlaylistNewest();
     }
 }

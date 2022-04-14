@@ -55,4 +55,14 @@ public class SongServiceImpl implements ISongService {
     public List<Song> findSongByNameTag(String nameTag) {
         return songRepository.findSongByNameTag(nameTag);
     }
+
+    @Override
+    public List<Song> getSevenSongNewest() {
+        return songRepository.getSevenSongNewest();
+    }
+
+    @Override
+    public List<Song> getSevenSongLikeMost() {
+        return songRepository.getSevenSongLikeMost();
+    }
 }
