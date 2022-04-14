@@ -2,6 +2,8 @@ package BackEnd.service;
 
 import BackEnd.model.LikeSong;
 
+import java.util.List;
+
 public interface ILikeSongService {
 
     Integer countBySongLikeSongIdSong(Long idSong);
