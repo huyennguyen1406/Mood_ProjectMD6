@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("*")
+
 @RestController
 @RequestMapping("/home/song")
+@CrossOrigin("*")
 public class SongController {
 
     @Autowired
@@ -67,6 +68,16 @@ public class SongController {
     public ResponseEntity<List<Song>> findSongByNameTag(@RequestParam("nameTag") String nameTag) {
         List<Song> songs = songService.findSongByNameTag(nameTag);
         return new ResponseEntity<>(songs, HttpStatus.OK);
+    }
+
+    @GetMapping("/newest")
+    public ResponseEntity<List<Song>> getSevenSongNewest(){
+        return new ResponseEntity<>(songService.getSevenSongNewest(), HttpStatus.OK);
+    }
+
+    @GetMapping("/like-most")
+    public ResponseEntity<List<Song>> getSevenSongLikeMost(){
+        return new ResponseEntity<>(songService.getSevenSongLikeMost(), HttpStatus.OK);
     }
 
 }

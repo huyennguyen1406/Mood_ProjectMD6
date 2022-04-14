@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("*")
+
 @RestController
 @RequestMapping("/home/playlist")
+@CrossOrigin("*")
 public class PlaylistController {
 
     @Autowired
@@ -59,4 +60,16 @@ public class PlaylistController {
     public ResponseEntity<List<Playlist>> findPlaylistBySearch(@RequestParam("search") String search) {
         return new ResponseEntity<>(playlistService.findPlaylistByNameSearch(search), HttpStatus.OK);
     }
+
+    @GetMapping("/newest")
+    public ResponseEntity<List<Playlist>> getSevenPlaylistNewest() {
+        return new ResponseEntity<>(playlistService.getSevenPlaylistNewest(), HttpStatus.OK);
+    }
+
+    @GetMapping("/like-most")
+    public ResponseEntity<List<Playlist>> getSevenPlaylistLikeMost() {
+        return new ResponseEntity<>(playlistService.getSevenPlaylistLikeMost(), HttpStatus.OK);
+    }
+
+
 }

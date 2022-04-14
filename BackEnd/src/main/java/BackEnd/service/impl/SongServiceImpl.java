@@ -30,8 +30,8 @@ public class SongServiceImpl implements ISongService {
 
     @Override
     public Song save(Song song) {
-        LocalDate dateCreate = LocalDate.parse(String.valueOf(song.getDateCreateSong()), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        song.setDateCreateSong(dateCreate);
+//        LocalDate dateCreate = LocalDate.parse(String.valueOf(song.getDateCreateSong()), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//        song.setDateCreateSong(dateCreate);
         return songRepository.save(song);
     }
 
@@ -54,5 +54,15 @@ public class SongServiceImpl implements ISongService {
     @Override
     public List<Song> findSongByNameTag(String nameTag) {
         return songRepository.findSongByNameTag(nameTag);
+    }
+
+    @Override
+    public List<Song> getSevenSongNewest() {
+        return songRepository.getSevenSongNewest();
+    }
+
+    @Override
+    public List<Song> getSevenSongLikeMost() {
+        return songRepository.getSevenSongLikeMost();
     }
 }

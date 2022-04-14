@@ -1,6 +1,7 @@
 package BackEnd.service.impl;
 
 import BackEnd.model.Playlist;
+import BackEnd.model.Song;
 import BackEnd.repository.IPlaylistRepository;
 import BackEnd.service.IPlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +32,10 @@ public class PlaylistServiceImpl implements IPlaylistService {
 
     @Override
     public Playlist save(Playlist playlist) {
-        LocalDate dateCreate = LocalDate.parse(String.valueOf(playlist.getDateCreatePlaylist()), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        LocalDate lastModifier = LocalDate.parse(String.valueOf(playlist.getLastModifierPlaylist()), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        playlist.setDateCreatePlaylist(dateCreate);
-        playlist.setLastModifierPlaylist(lastModifier);
+//        LocalDate dateCreate = LocalDate.parse(String.valueOf(playlist.getDateCreatePlaylist()), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//        LocalDate lastModifier = LocalDate.parse(String.valueOf(playlist.getLastModifierPlaylist()), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//        playlist.setDateCreatePlaylist(dateCreate);
+//        playlist.setLastModifierPlaylist(lastModifier);
         return playlistRepository.save(playlist);
     }
 
@@ -47,5 +48,15 @@ public class PlaylistServiceImpl implements IPlaylistService {
     public List<Playlist> findPlaylistByNameSearch(String search) {
         String tagSearch = "%" + search + "%";
         return playlistRepository.findPlaylistByNameSearch(tagSearch);
+    }
+
+    @Override
+    public List<Playlist> getSevenPlaylistLikeMost() {
+        return playlistRepository.getSevenPlaylistLikeMost();
+    }
+
+    @Override
+    public List<Playlist> getSevenPlaylistNewest() {
+        return playlistRepository.getSevenPlaylistNewest();
     }
 }

@@ -19,6 +19,8 @@ public class Playlist {
     @JoinColumn(name = "id_user")
     private User user;
 
+    private String avatarPlaylistUrl;
+
     private String descriptionPlaylist;
     private LocalDate dateCreatePlaylist;
     private LocalDate lastModifierPlaylist;
@@ -31,6 +33,14 @@ public class Playlist {
     private Set<Song> songs;
 
     public Playlist() {
+    }
+
+    public String getAvatarPlaylistUrl() {
+        return avatarPlaylistUrl;
+    }
+
+    public void setAvatarPlaylistUrl(String avatarPlaylistUrl) {
+        this.avatarPlaylistUrl = avatarPlaylistUrl;
     }
 
     public Set<Song> getSongs() {
