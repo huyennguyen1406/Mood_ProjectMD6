@@ -47,24 +47,6 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
-    @PutMapping("/re-pass/{id}")
-    public ResponseEntity<?> changePassword(@PathVariable Long id, @RequestBody RePassword rePassword) {
-        User user = new User();
-        if (iUserRepository.findById(id).isPresent()){
-            user = iUserRepository.findById(id).get();
-        }
-        if (!encoder.matches(rePassword.getCurrentPassword(), user.getPassword())) {
-//            Mã 600 là lỗi sai mật khẩu hiện tại
-            return new ResponseEntity<>(600, HttpStatus.BAD_REQUEST);
-        } else if (!rePassword.getNewPassword().equals(rePassword.getConfirmPassword())) {
-//            Mã 601 là lỗi xác nhận mật khẩu mới sai
-            return new ResponseEntity<>(601, HttpStatus.BAD_REQUEST);
-        }
-        user.setPassword(encoder.encode(rePassword.getNewPassword()));
-        iUserRepository.save(user);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @PostMapping("/sign-in")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody Login loginRequest) {
 

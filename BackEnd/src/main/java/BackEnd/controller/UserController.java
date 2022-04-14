@@ -1,10 +1,13 @@
 package BackEnd.controller;
 
 import BackEnd.model.User;
+import BackEnd.payload.request.RePassword;
+import BackEnd.payload.response.MessageResponse;
 import BackEnd.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +18,23 @@ import java.util.List;
 public class UserController {
     @Autowired
     private IUserService userService;
+    @Autowired
+    private PasswordEncoder encoder;
+
+
+    @PutMapping("/changePassword/{id}")
+    public ResponseEntity<?> changePassword(@PathVariable Long id, @RequestBody RePassword rePassword) {
+        User user = userService.findById(id);
+
+        if (!encoder.matches(rePassword.getCurrentPassword(), user.getPassword())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Mật khẩu  vừa nhập không trùng khớp với mật khẩu hiện tại!"));
+        } else if (!rePassword.getNewPassword().equals(rePassword.getConfirmPassword())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Mật khẩu vừa nhập không trùng khớp với mật khẩu mới!"));
+        }
+        user.setPassword(encoder.encode(rePassword.getNewPassword()));
+        userService.save(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @GetMapping()
     public ResponseEntity<List<User>> findAllUser() {
