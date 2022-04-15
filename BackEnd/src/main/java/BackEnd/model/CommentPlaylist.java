@@ -20,9 +20,9 @@ public class CommentPlaylist {
 
     private String contentComment;
 
-    @ManyToOne
-    @JoinColumn(name = "id_comment_comment")
-    private CommentSong commentSong;
+//    @ManyToOne
+//    @JoinColumn(name = "id_comment_comment")
+//    private CommentPlaylist commentPlaylist;
 
     public CommentPlaylist() {
     }
@@ -59,11 +59,11 @@ public class CommentPlaylist {
         this.contentComment = contentComment;
     }
 
-    public CommentSong getCommentSong() {
-        return commentSong;
-    }
-
-    public void setCommentSong(CommentSong commentSong) {
-        this.commentSong = commentSong;
-    }
+//    public CommentSong getCommentSong() {
+//        return commentSong;
+//    }
+//
+//    public void setCommentSong(CommentSong commentSong) {
+//        this.commentSong = commentSong;
+//    }
 }

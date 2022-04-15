@@ -24,4 +24,6 @@ public interface IPlaylistRepository extends JpaRepository<Playlist, Long> {
 
     @Query(value = "select * from playlist order by date_create_playlist desc limit 7;", nativeQuery = true)
     List<Playlist> getSevenPlaylistNewest();
+
+    List<Playlist> findAllByUserId(Long idUser);
 }

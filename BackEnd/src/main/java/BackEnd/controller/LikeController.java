@@ -31,7 +31,12 @@ public class LikeController {
     // Phần like của Song
     @GetMapping("/song/{idSong}")
     public ResponseEntity<Integer> countLikeSong(@PathVariable("idSong") Long idSong) {
-        return new ResponseEntity<>(likeSongService.countBySongLikeSongIdSong(idSong), HttpStatus.OK);
+        Integer totalLike = likeSongService.countBySongLikeSongIdSong(idSong);
+        if (totalLike != null){
+            return new ResponseEntity<>(likeSongService.countBySongLikeSongIdSong(idSong), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(0, HttpStatus.OK);
+        }
     }
 
     @GetMapping("/song/{idUser}/{idSong}")

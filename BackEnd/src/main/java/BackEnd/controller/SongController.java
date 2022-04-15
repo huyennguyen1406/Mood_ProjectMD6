@@ -60,8 +60,14 @@ public class SongController {
             Song song = songService.findById(idSong);
             return new ResponseEntity<>(song, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Đã có sẵn trong playlist",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @DeleteMapping("/{idSong}/{idPlaylist}")
+    public ResponseEntity<?> removeSongFromPlaylist(@PathVariable("idSong") Long idSong, @PathVariable("idPlaylist") Long idPlaylist){
+        songService.removeSongFromPlaylist(idSong, idPlaylist);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/nameTag")
@@ -83,6 +89,11 @@ public class SongController {
     @GetMapping("/{idUser}/liked")
     public ResponseEntity<List<Song>> getAllSongLiked(@PathVariable("idUser") Long idUser){
         return new ResponseEntity<>(songService.getAllSongLiked(idUser), HttpStatus.OK);
+    }
+
+    @GetMapping("/own/{idUser}")
+    public ResponseEntity<List<Song>> getAllOwnSong(@PathVariable("idUser") Long idUser){
+        return new ResponseEntity<>(songService.findAllByAuthorIdAuthor(idUser), HttpStatus.OK);
     }
 
 }

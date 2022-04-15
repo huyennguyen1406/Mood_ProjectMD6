@@ -74,8 +74,8 @@ public class CommentController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/playlist/list/{idSong}")
-    public ResponseEntity<List<CommentPlaylist>> getAllCommentByPlaylistId(@PathVariable("idSong") Long idSong) {
-        return new ResponseEntity<>(commentPlaylistService.findAllByPlaylistCommentPlaylistIdPlaylist(idSong), HttpStatus.OK);
+    @GetMapping("/playlist/list/{idPlaylist}")
+    public ResponseEntity<List<CommentPlaylist>> getAllCommentByPlaylistId(@PathVariable("idPlaylist") Long idPlaylist) {
+        return new ResponseEntity<>(commentPlaylistService.findAllByPlaylistCommentPlaylistIdPlaylist(idPlaylist), HttpStatus.OK);
     }
 }

@@ -27,4 +27,8 @@ public interface ISongService {
     List<Song> getSevenSongLikeMost();
 
     List<Song> getAllSongLiked(Long idUser);
+
+    void removeSongFromPlaylist(Long idSong, Long idPlaylist);
+
+    List<Song> findAllByAuthorIdAuthor(Long idUser);
 }
