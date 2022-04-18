@@ -12,6 +12,7 @@ import BackEnd.repository.IRoleRepository;
 import BackEnd.repository.IUserRepository;
 import BackEnd.security.jwt.JwtUtils;
 import BackEnd.security.service.UserDetailImpl;
+import BackEnd.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,8 @@ public class AuthController {
 
     @Autowired
     IRoleRepository iRoleRepository;
+    @Autowired
+    IUserService userService;
 
     @Autowired
     PasswordEncoder encoder;
@@ -74,50 +77,64 @@ public class AuthController {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken !"));
-        }
-
-        if (iUserRepository.existsByEmail(signUpRequest.getEmail())) {
+        } else if (iUserRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use !"));
-        }
-
-        // Create new user's account
-        User user = new User(
-                signUpRequest.getName(),
-                signUpRequest.getAddress(),
-                signUpRequest.getPhone(),
-                signUpRequest.getEmail(),
-                signUpRequest.getUsername(),
-                encoder.encode(signUpRequest.getPassword()));
-
-        Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
-
-        if (strRoles == null) {
-            Role userRole = iRoleRepository.findByName(ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
         } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        Role adminRole = iRoleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
 
-                        break;
-                    default:
-                        Role userRole = iRoleRepository.findByName(ERole.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
-                }
-            });
+            // Create new user's account
+            User user = new User(
+                    signUpRequest.getName(),
+                    signUpRequest.getAddress(),
+                    signUpRequest.getPhone(),
+                    signUpRequest.getEmail(),
+                    signUpRequest.getUsername(),
+                    encoder.encode(signUpRequest.getPassword()));
+            user.setAvatarURL("https://cdn3.vectorstock.com/i/1000x1000/26/62/runner-avatar-figure-with-mp3-player-music-block-vector-32312662.jpg");
+            Set<String> strRoles = signUpRequest.getRole();
+            Set<Role> roles = new HashSet<>();
+
+            if (strRoles == null) {
+                Role userRole = iRoleRepository.findByName(ERole.ROLE_USER)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(userRole);
+            } else {
+                strRoles.forEach(role -> {
+                    switch (role) {
+                        case "admin":
+                            Role adminRole = iRoleRepository.findByName(ERole.ROLE_ADMIN)
+                                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                            roles.add(adminRole);
+
+                            break;
+                        default:
+                            Role userRole = iRoleRepository.findByName(ERole.ROLE_USER)
+                                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                            roles.add(userRole);
+                    }
+                });
+            }
+
+            user.setRoles(roles);
+            iUserRepository.save(user);
+
+            return ResponseEntity.ok(new MessageResponse("User registered successfully !"));
         }
+    }
 
-        user.setRoles(roles);
-        iUserRepository.save(user);
-
-        return ResponseEntity.ok(new MessageResponse("User registered successfully !"));
+    @GetMapping("/active")
+    public ResponseEntity<?> activeUserByToken(@RequestParam String token){
+        userService.activeUser(token);
+        return new ResponseEntity<>(new MessageResponse("Active successfully!"), HttpStatus.OK);
+    }
+    @GetMapping("/check-email/{mail}")
+    public ResponseEntity<?> checkEmail(@PathVariable String mail){
+        if (userService.existsByEmail(mail)){
+            if (userService.findByEmail(mail).get().getStatusActive()){
+                return new ResponseEntity<>(userService.findByEmail(mail), HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
