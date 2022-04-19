@@ -76,12 +76,10 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUp signUpRequest) {
         if (userService.existsByUsername(signUpRequest.getUsername())) {
             // tài khoản đã đăng kí
-            return new ResponseEntity<>(new MessageResponse("Tài khoản đã tồn tại trong hệ thống" +
-                    "Vui lòng điền tài khoản khác!"), HttpStatus.OK);
+            return new ResponseEntity<>(new MessageResponse("Tài khoản đã tồn tại trong hệ thống! Vui lòng điền tài khoản khác!"), HttpStatus.BAD_REQUEST);
         } else if (userService.existsByEmail(signUpRequest.getEmail())) {
             //email đã đăng kí
-            return new ResponseEntity<>(new MessageResponse("Email đã tồn tại trong hệ thống" +
-                    "Vui lòng điền email khác!"), HttpStatus.OK);
+            return new ResponseEntity<>(new MessageResponse("Email đã tồn tại trong hệ thống! Vui lòng điền email khác!"), HttpStatus.BAD_REQUEST);
         } else {
             User user = new User(
                     signUpRequest.getName(),
@@ -117,16 +115,14 @@ public class AuthController {
             }
             user.setRoles(roles);
             userService.save(user);
-            return new ResponseEntity<>(new MessageResponse("Đã gửi mail kích hoạt tài khoản" +
-                    "Vui lòng check mail để kích hoạt!"), HttpStatus.OK);
+            return new ResponseEntity<>(new MessageResponse("Đã gửi mail kích hoạt tài khoản! Vui lòng check mail để kích hoạt!"), HttpStatus.OK);
         }
     }
 
     @GetMapping("/active/{token}")
     public ResponseEntity<?> activeUserByToken(@PathVariable String token) {
         userService.activeUser(token);
-        return new ResponseEntity<>(new MessageResponse("Kích hoạt tài khoản của bạn thành công!" +
-                "Xin mời đăng nhập sử dụng"),HttpStatus.OK);
+        return new ResponseEntity<>(new MessageResponse("Kích hoạt tài khoản của bạn thành công!Xin mời đăng nhập sử dụng"),HttpStatus.OK);
     }
 
     @GetMapping("/check-email/{mail}")
