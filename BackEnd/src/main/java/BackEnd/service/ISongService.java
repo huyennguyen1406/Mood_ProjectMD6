@@ -27,4 +27,6 @@ public interface ISongService {
     List<Song> getSevenSongLikeMost();
 
     List<Song> getAllSongLiked(Long idUser);
+
+    void increaseViewSong(Long idSong);
 }

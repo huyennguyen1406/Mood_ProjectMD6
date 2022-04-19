@@ -30,7 +30,7 @@ public interface ISongRepository extends JpaRepository<Song, Long> {
 
     @Query(value = "select id_song, avatar_url_song, description_song, mp3url_song,name_song, song.id_author, id_category, id_singer, number_of_view_song, date_create_song from song " +
             "inner join like_song on song.id_song = like_song.id_song_like " +
-            "group by id_song_like order by count(id_song_like) desc limit 7", nativeQuery = true)
+            "group by id_song_like order by number_of_view_song desc limit 7", nativeQuery = true)
     List<Song> getSevenSongLikeMost();
 
     @Query(value = "select * from song order by date_create_song desc limit 7", nativeQuery = true)
@@ -39,4 +39,8 @@ public interface ISongRepository extends JpaRepository<Song, Long> {
     @Query(value = "select id_song, avatar_url_song, description_song, mp3url_song, name_song, id_author, id_category, id_singer, number_of_view_song, date_create_song from like_song " +
             "inner join song on like_song.id_song_like = song.id_song where id_user_like = :idUser", nativeQuery = true)
     List<Song> getAllSongLiked(@Param("idUser") Long idUser);
+
+    @Modifying
+    @Query(value = "update project_md6.song set number_of_view_song = number_of_view_song + 1 where id_song = :idSong", nativeQuery = true)
+    void increaseViewSong(@Param("idSong") Long idSong);
 }

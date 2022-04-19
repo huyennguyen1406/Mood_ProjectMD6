@@ -70,4 +70,9 @@ public class SongServiceImpl implements ISongService {
     public List<Song> getAllSongLiked(Long idUser) {
         return songRepository.getAllSongLiked(idUser);
     }
+
+    @Override
+    public void increaseViewSong(Long idSong) {
+        songRepository.increaseViewSong(idSong);
+    }
 }
