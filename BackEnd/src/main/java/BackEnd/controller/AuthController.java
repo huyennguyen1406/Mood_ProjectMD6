@@ -47,7 +47,12 @@ public class AuthController {
 
     @PostMapping("/sign-in")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody Login loginRequest) {
-
+        User user = userService.findByUsername(loginRequest.getUsername()).get();
+        if (userService.existsByEmail(user.getEmail())){
+            if (!userService.findByEmail(user.getEmail()).get().getStatusActive()){
+                return new ResponseEntity<>(new MessageResponse("Please active your account first"), HttpStatus.BAD_REQUEST);
+            }
+        }
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -58,16 +63,12 @@ public class AuthController {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-        Optional<User> user = userService.findByEmail(loginRequest.getUsername());
-        if (user.get().getStatusActive()){
-            return ResponseEntity.ok(new JwtResponse(jwt,
-                    userDetails.getId(),
-                    userDetails.getUsername(),
-                    userDetails.getEmail(),
-                    roles));
-        } else {
-            return new ResponseEntity<>(new MessageResponse("Please check your email to active account first!"),HttpStatus.BAD_REQUEST);
-        }
+
+        return ResponseEntity.ok(new JwtResponse(jwt,
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail(),
+                roles));
 
     }
 
@@ -117,19 +118,20 @@ public class AuthController {
             }
             user.setRoles(roles);
             userService.save(user);
-            return new ResponseEntity<>(new MessageResponse("Mail has been send. Please check to active your account!"),HttpStatus.OK);
+            return new ResponseEntity<>(new MessageResponse("Mail has been send. Please check to active your account!"), HttpStatus.OK);
         }
     }
 
     @GetMapping("/active/{token}")
-    public ResponseEntity<?> activeUserByToken(@PathVariable String token){
+    public ResponseEntity<?> activeUserByToken(@PathVariable String token) {
         userService.activeUser(token);
-        return new ResponseEntity<>( HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @GetMapping("/check-email/{mail}")
-    public ResponseEntity<?> checkEmail(@PathVariable String mail){
-        if (userService.existsByEmail(mail)){
-            if (userService.findByEmail(mail).get().getStatusActive()){
+    public ResponseEntity<?> checkEmail(@PathVariable String mail) {
+        if (userService.existsByEmail(mail)) {
+            if (userService.findByEmail(mail).get().getStatusActive()) {
                 return new ResponseEntity<>(userService.findByEmail(mail), HttpStatus.OK);
             }
         }
