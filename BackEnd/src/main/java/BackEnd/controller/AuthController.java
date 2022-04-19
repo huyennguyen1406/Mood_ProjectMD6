@@ -50,7 +50,7 @@ public class AuthController {
         User user = userService.findByUsername(loginRequest.getUsername()).get();
         if (userService.existsByEmail(user.getEmail())){
             if (!userService.findByEmail(user.getEmail()).get().getStatusActive()){
-                return new ResponseEntity<>(new MessageResponse("Please active your account first"), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new MessageResponse("Vui lòng kích hoạt tài khoản của bạn!"), HttpStatus.BAD_REQUEST);
             }
         }
         Authentication authentication = authenticationManager.authenticate(
@@ -75,16 +75,14 @@ public class AuthController {
     @PostMapping("/sign-up")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUp signUpRequest) {
         if (userService.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken !"));
+            // tài khoản đã đăng kí
+            return new ResponseEntity<>(new MessageResponse("Tài khoản đã tồn tại trong hệ thống" +
+                    "Vui lòng điền tài khoản khác!"), HttpStatus.OK);
         } else if (userService.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use !"));
+            //email đã đăng kí
+            return new ResponseEntity<>(new MessageResponse("Email đã tồn tại trong hệ thống" +
+                    "Vui lòng điền email khác!"), HttpStatus.OK);
         } else {
-
-            // Create new user's account
             User user = new User(
                     signUpRequest.getName(),
                     signUpRequest.getAddress(),
@@ -92,6 +90,7 @@ public class AuthController {
                     signUpRequest.getEmail(),
                     signUpRequest.getUsername(),
                     encoder.encode(signUpRequest.getPassword()));
+            user.setStatusActive(false);
             user.setAvatarURL("https://cdn3.vectorstock.com/i/1000x1000/26/62/runner-avatar-figure-with-mp3-player-music-block-vector-32312662.jpg");
             Set<String> strRoles = signUpRequest.getRole();
             Set<Role> roles = new HashSet<>();
@@ -118,14 +117,16 @@ public class AuthController {
             }
             user.setRoles(roles);
             userService.save(user);
-            return new ResponseEntity<>(new MessageResponse("Mail has been send. Please check to active your account!"), HttpStatus.OK);
+            return new ResponseEntity<>(new MessageResponse("Đã gửi mail kích hoạt tài khoản" +
+                    "Vui lòng check mail để kích hoạt!"), HttpStatus.OK);
         }
     }
 
     @GetMapping("/active/{token}")
     public ResponseEntity<?> activeUserByToken(@PathVariable String token) {
         userService.activeUser(token);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(new MessageResponse("Kích hoạt tài khoản của bạn thành công!" +
+                "Xin mời đăng nhập sử dụng"),HttpStatus.OK);
     }
 
     @GetMapping("/check-email/{mail}")

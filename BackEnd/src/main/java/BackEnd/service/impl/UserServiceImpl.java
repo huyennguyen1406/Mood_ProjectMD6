@@ -95,6 +95,6 @@ public class UserServiceImpl implements IUserService {
         User account = newToken.getAccount();
         account.setStatusActive(true);
         userRepository.save(account);
-        registrationUserTokenRepository.deleteByAccount_Id(newToken.getId());
+        registrationUserTokenRepository.deleteById(newToken.getId());
     }
 }
