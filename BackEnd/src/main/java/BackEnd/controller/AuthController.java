@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -57,12 +58,17 @@ public class AuthController {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
+        Optional<User> user = userService.findByEmail(loginRequest.getUsername());
+        if (user.get().getStatusActive()){
+            return ResponseEntity.ok(new JwtResponse(jwt,
+                    userDetails.getId(),
+                    userDetails.getUsername(),
+                    userDetails.getEmail(),
+                    roles));
+        } else {
+            return new ResponseEntity<>(new MessageResponse("Please check your email to active account first!"),HttpStatus.BAD_REQUEST);
+        }
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                roles));
     }
 
     @PostMapping("/sign-up")
@@ -118,7 +124,7 @@ public class AuthController {
     @GetMapping("/active/{token}")
     public ResponseEntity<?> activeUserByToken(@PathVariable String token){
         userService.activeUser(token);
-        return new ResponseEntity<>("Active successfully!", HttpStatus.OK);
+        return new ResponseEntity<>( HttpStatus.OK);
     }
     @GetMapping("/check-email/{mail}")
     public ResponseEntity<?> checkEmail(@PathVariable String mail){
