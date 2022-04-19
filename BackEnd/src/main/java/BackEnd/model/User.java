@@ -1,11 +1,8 @@
 package BackEnd.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,13 +15,21 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull(message = "Not blank!")
     private String name;
+    @NotNull(message = "Not blank!")
     private String address;
+    @NotNull(message = "Not blank!")
     private String phone;
     private String avatarURL;
+    @NotNull(message = "Not blank!")
     private String username;
+    @NotNull(message = "Not blank!")
     private String password;
+    @NotNull(message = "Please enter your email!")
+    @Email(message = "Email not valid!")
     private String email;
+    private Boolean statusActive = false;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
@@ -54,6 +59,12 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public User(String username, String password, Set<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -126,5 +137,13 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Boolean getStatusActive() {
+        return statusActive;
+    }
+
+    public void setStatusActive(Boolean statusActive) {
+        this.statusActive = statusActive;
     }
 }
