@@ -18,17 +18,17 @@ public class Song {
     private String mp3UrlSong;
     private String avatarUrlSong;
 
-    @ManyToOne
-    @JoinColumn(name = "id_author")
-    private Author author;
+//    @ManyToOne
+//    @JoinColumn(name = "id_author")
+//    private Author author;
 
     @ManyToOne
     @JoinColumn(name = "id_singer")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "id_category")
-    private Category category;
+//    @ManyToOne
+//    @JoinColumn(name = "id_category")
+//    private Category category;
 
     @Value("0")
     private Long numberOfViewSong;
@@ -94,13 +94,13 @@ public class Song {
         this.avatarUrlSong = avatarUrlSong;
     }
 
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
+//    public Author getAuthor() {
+//        return author;
+//    }
+//
+//    public void setAuthor(Author author) {
+//        this.author = author;
+//    }
 
     public User getUser() {
         return user;
@@ -110,11 +110,11 @@ public class Song {
         this.user = user;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+//    public Category getCategory() {
+//        return category;
+//    }
+//
+//    public void setCategory(Category category) {
+//        this.category = category;
+//    }
 }

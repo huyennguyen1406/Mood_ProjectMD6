@@ -42,8 +42,8 @@ public class SongServiceImpl implements ISongService {
 
     @Override
     public List<Song> findSongByNameSearch(String search) {
-        String tagSearch = "%" + search + "%";
-        return songRepository.findSongByNameSearch(tagSearch);
+        String nameSearch = "%" + search + "%";
+        return songRepository.findSongByNameSearch(nameSearch);
     }
 
     @Override
@@ -52,8 +52,9 @@ public class SongServiceImpl implements ISongService {
     }
 
     @Override
-    public List<Song> findSongByNameTag(String nameTag) {
-        return songRepository.findSongByNameTag(nameTag);
+    public List<Song> findSongByNameTag(String search) {
+//        String tagSearch = "%" + search + "%";
+        return songRepository.findSongByNameTag(search);
     }
 
     @Override

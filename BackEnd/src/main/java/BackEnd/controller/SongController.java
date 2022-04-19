@@ -65,8 +65,8 @@ public class SongController {
     }
 
     @GetMapping("/nameTag")
-    public ResponseEntity<List<Song>> findSongByNameTag(@RequestParam("nameTag") String nameTag) {
-        List<Song> songs = songService.findSongByNameTag(nameTag);
+    public ResponseEntity<List<Song>> findSongByNameTag(@RequestParam("search") String search) {
+        List<Song> songs = songService.findSongByNameTag(search);
         return new ResponseEntity<>(songs, HttpStatus.OK);
     }
 
