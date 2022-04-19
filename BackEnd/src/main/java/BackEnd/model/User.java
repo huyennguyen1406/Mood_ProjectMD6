@@ -23,7 +23,6 @@ public class User {
     private String phone;
     private String avatarURL;
     @NotNull(message = "Not blank!")
-    @Pattern(regexp = "^[a-z0-9]{4,15}", message = "Please enter 4-15 keys!")
     private String username;
     @NotNull(message = "Not blank!")
     private String password;

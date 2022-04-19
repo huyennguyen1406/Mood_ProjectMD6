@@ -27,11 +27,11 @@ public class EmailService implements IEmailService {
     public void SendRegistrationUserConfirm(String email) {
         Optional<User> account = userService.findByEmail(email);
 
-        String token = registrationUserTokenRepository.findActiveTokenByUserId(account.get().getId());
+        String token = registrationUserTokenRepository.findByAccount_Id(account.get().getId()).getToken();
 
-        String confirmationUrl = "http://localhost:8080/api/sign-up/active-account?token=" + token;
+        String confirmationUrl = "http://localhost:8080/api/auth/active/" + token;
         String subject = "Xác Nhận Đăng Ký Account";
-        String content = "Bạn đã đăng kí thành công. Click vào link dưới đây để kích hoạt tài khoản \n" + confirmationUrl;
+        String content = "Click vào link dưới đây để kích hoạt tài khoản \n" + confirmationUrl;
 
         sendEmail(email, subject, content);
     }
@@ -41,7 +41,6 @@ public class EmailService implements IEmailService {
         message.setTo(recipientEmail);
         message.setSubject(subject);
         message.setText(content);
-
         mailSender.send(message);
     }
 }

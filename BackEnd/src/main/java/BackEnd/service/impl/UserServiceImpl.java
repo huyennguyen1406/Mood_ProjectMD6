@@ -92,8 +92,9 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void activeUser(String token) {
         RegistrationUserToken newToken = registrationUserTokenRepository.findByToken(token);
-
         User account = newToken.getAccount();
-        registrationUserTokenRepository.deleteTokenByUserId(newToken.getId());
+        account.setStatusActive(true);
+        userRepository.save(account);
+        registrationUserTokenRepository.deleteByAccount_Id(newToken.getId());
     }
 }

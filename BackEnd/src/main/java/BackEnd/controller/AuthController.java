@@ -4,12 +4,10 @@ import BackEnd.model.ERole;
 import BackEnd.model.Role;
 import BackEnd.model.User;
 import BackEnd.payload.request.Login;
-import BackEnd.payload.request.RePassword;
 import BackEnd.payload.request.SignUp;
 import BackEnd.payload.response.JwtResponse;
 import BackEnd.payload.response.MessageResponse;
 import BackEnd.repository.IRoleRepository;
-import BackEnd.repository.IUserRepository;
 import BackEnd.security.jwt.JwtUtils;
 import BackEnd.security.service.UserDetailImpl;
 import BackEnd.service.IUserService;
@@ -35,10 +33,6 @@ import java.util.stream.Collectors;
 public class AuthController {
     @Autowired
     AuthenticationManager authenticationManager;
-
-    @Autowired
-    IUserRepository iUserRepository;
-
     @Autowired
     IRoleRepository iRoleRepository;
     @Autowired
@@ -73,11 +67,11 @@ public class AuthController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUp signUpRequest) {
-        if (iUserRepository.existsByUsername(signUpRequest.getUsername())) {
+        if (userService.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken !"));
-        } else if (iUserRepository.existsByEmail(signUpRequest.getEmail())) {
+        } else if (userService.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use !"));
@@ -115,18 +109,16 @@ public class AuthController {
                     }
                 });
             }
-
             user.setRoles(roles);
-            iUserRepository.save(user);
-
-            return ResponseEntity.ok(new MessageResponse("User registered successfully !"));
+            userService.save(user);
+            return new ResponseEntity<>(new MessageResponse("Mail has been send. Please check to active your account!"),HttpStatus.OK);
         }
     }
 
-    @GetMapping("/active")
-    public ResponseEntity<?> activeUserByToken(@RequestParam String token){
+    @GetMapping("/active/{token}")
+    public ResponseEntity<?> activeUserByToken(@PathVariable String token){
         userService.activeUser(token);
-        return new ResponseEntity<>(new MessageResponse("Active successfully!"), HttpStatus.OK);
+        return new ResponseEntity<>("Active successfully!", HttpStatus.OK);
     }
     @GetMapping("/check-email/{mail}")
     public ResponseEntity<?> checkEmail(@PathVariable String mail){
