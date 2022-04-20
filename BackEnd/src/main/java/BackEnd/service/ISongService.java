@@ -29,4 +29,6 @@ public interface ISongService {
     List<Song> getAllSongLiked(Long idUser);
 
     void increaseViewSong(Long idSong);
+
+    List<Song> findAllByAuthorIdAuthor(Long idUser);
 }

@@ -76,4 +76,9 @@ public class SongServiceImpl implements ISongService {
     public void increaseViewSong(Long idSong) {
         songRepository.increaseViewSong(idSong);
     }
+
+    @Override
+    public List<Song> findAllByAuthorIdAuthor(Long idUser) {
+        return songRepository.findAllByUserId(idUser);
+    }
 }

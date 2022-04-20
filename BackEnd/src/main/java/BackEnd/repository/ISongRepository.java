@@ -43,4 +43,6 @@ public interface ISongRepository extends JpaRepository<Song, Long> {
     @Modifying
     @Query(value = "update song set number_of_view_song = number_of_view_song + 1 where id_song = :idSong", nativeQuery = true)
     void increaseViewSong(@Param("idSong") Long idSong);
+
+    List<Song> findAllByUserId(Long idUser);
 }

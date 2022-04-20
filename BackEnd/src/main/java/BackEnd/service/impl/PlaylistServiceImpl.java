@@ -59,4 +59,9 @@ public class PlaylistServiceImpl implements IPlaylistService {
     public List<Playlist> getSevenPlaylistNewest() {
         return playlistRepository.getSevenPlaylistNewest();
     }
+
+    @Override
+    public List<Playlist> findAllByUserId(Long idUser) {
+        return playlistRepository.findAllByUserId(idUser);
+    }
 }

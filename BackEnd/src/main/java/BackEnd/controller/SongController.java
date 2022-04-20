@@ -91,4 +91,9 @@ public class SongController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/own/{idUser}")
+    public ResponseEntity<List<Song>> getAllOwnSong(@PathVariable("idUser") Long idUser){
+        return new ResponseEntity<>(songService.findAllByAuthorIdAuthor(idUser), HttpStatus.OK);
+    }
+
 }

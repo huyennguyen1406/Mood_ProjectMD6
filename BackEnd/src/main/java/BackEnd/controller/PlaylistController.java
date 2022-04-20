@@ -71,5 +71,9 @@ public class PlaylistController {
         return new ResponseEntity<>(playlistService.getSevenPlaylistLikeMost(), HttpStatus.OK);
     }
 
+    @GetMapping("/list/{idUser}")
+    public ResponseEntity<List<Playlist>> getAllPlaylistByUserId(@PathVariable("idUser") Long idUser){
+        return new ResponseEntity<>(playlistService.findAllByUserId(idUser), HttpStatus.OK);
+    }
 
 }

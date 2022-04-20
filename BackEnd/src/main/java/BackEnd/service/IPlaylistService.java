@@ -20,4 +20,6 @@ public interface IPlaylistService {
     List<Playlist> getSevenPlaylistLikeMost();
 
     List<Playlist> getSevenPlaylistNewest();
+
+    List<Playlist> findAllByUserId(Long idUser);
 }
