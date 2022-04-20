@@ -20,6 +20,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -48,8 +51,8 @@ public class AuthController {
     @PostMapping("/sign-in")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody Login loginRequest) {
         User user = userService.findByUsername(loginRequest.getUsername()).get();
-        if (userService.existsByEmail(user.getEmail())){
-            if (!userService.findByEmail(user.getEmail()).get().getStatusActive()){
+        if (userService.existsByEmail(user.getEmail())) {
+            if (!userService.findByEmail(user.getEmail()).get().getStatusActive()) {
                 return new ResponseEntity<>(new MessageResponse("Vui lòng kích hoạt tài khoản của bạn!"), HttpStatus.BAD_REQUEST);
             }
         }
@@ -123,10 +126,11 @@ public class AuthController {
     }
 
     @GetMapping("/active/{token}")
-    public ResponseEntity<?> activeUserByToken(@PathVariable String token) {
+    public RedirectView activeUserByToken(@PathVariable String token, RedirectAttributes attributes) {
         userService.activeUser(token);
-        return new ResponseEntity<>(new MessageResponse("Kích hoạt tài khoản của bạn thành công!" +
-                "Xin mời đăng nhập sử dụng"),HttpStatus.OK);
+        attributes.addFlashAttribute("flashAttribute", "redirectWithRedirectView");
+        attributes.addAttribute("attribute", "redirectWithRedirectView");
+        return new RedirectView("http://localhost:4200/login");
     }
 
     @GetMapping("/check-email/{mail}")

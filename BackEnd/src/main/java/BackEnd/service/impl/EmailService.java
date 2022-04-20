@@ -30,8 +30,8 @@ public class EmailService implements IEmailService {
         String token = registrationUserTokenRepository.findByAccount_Id(account.get().getId()).getToken();
 
         String confirmationUrl = "http://localhost:8080/api/auth/active/" + token;
-        String subject = "Xác Nhận Đăng Ký Account";
-        String content = "Click vào link dưới đây để kích hoạt tài khoản \n" + confirmationUrl;
+        String subject = "PASSIO MUSIC - Xác Nhận Đăng Ký Account";
+        String content = "Chào mừng đến với PASSIO MUSIC.\n Click vào link dưới đây để kích hoạt tài khoản \n" + confirmationUrl;
 
         sendEmail(email, subject, content);
     }

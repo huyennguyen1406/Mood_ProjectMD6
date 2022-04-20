@@ -64,4 +64,5 @@ public class PlaylistServiceImpl implements IPlaylistService {
     public List<Playlist> findAllByUserId(Long idUser) {
         return playlistRepository.findAllByUserId(idUser);
     }
+
 }
